@@ -1,3 +1,8 @@
+//! Configuration for chat completion requests.
+//!
+//! [`ChatConfig`] holds the tunable generation parameters sent alongside
+//! every chat completion request.
+
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
@@ -22,6 +27,16 @@ pub struct ChatConfig {
     /// Random seed for reproducibility.
     pub seed: Option<u64>,
 
+    /// Constrains the model's output to a specific JSON Schema.
+    ///
+    /// When `Some`, the model is instructed to produce valid JSON matching
+    /// the provided schema.  This is typically set automatically by
+    /// [`LLMClient::parse`](super::client::LLMClient::parse) — you only
+    /// need to set it manually when crafting custom structured-output
+    /// requests.
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    pub response_format: Option<Value>,
+
     /// Additional provider-specific parameters.
     ///
     /// Examples:
@@ -45,6 +60,7 @@ impl Default for ChatConfig {
             top_p: None,
             n: None,
             seed: None,
+            response_format: None,
             extra: json!({}),
         }
     }

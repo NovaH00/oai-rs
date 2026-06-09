@@ -1,5 +1,6 @@
 mod types;
-mod client;
+mod core;
 
-pub use client::{LLMClient, ChatConfig};
-pub use types::{Message, Role, ContentPart, ImageFormat, Error};
+pub use core::{LLMClient, ChatConfig};
+pub use types::message;
+pub use types::error;

@@ -1,14 +1,24 @@
+//! Content part types for multi-modal messages.
+//!
+//! Provides [`ContentPart`] (text or image) and [`ImageFormat`] for
+//! building messages that include images alongside text.
+
 use std::fmt;
 use serde::{Serialize, Deserialize};
 use serde_json::{json, Value};
 
+/// Supported image encoding formats for image content parts.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum ImageFormat {
+    /// PNG image format.
     #[default]
     Png,
+    /// JPEG image format.
     Jpeg,
+    /// Alternate JPEG extension.
     Jpg,
+    /// WebP image format.
     Webp,
 }
 

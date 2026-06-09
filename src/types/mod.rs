@@ -1,9 +1,7 @@
-mod message;
-mod role;
-mod content_part;
-mod error;
+//! Domain types for OpenAI-compatible chat APIs.
+//!
+//! - [`message`] — message, role, and content-part types
+//! - [`error`] — unified error type used across the crate
 
-pub use message::Message;
-pub use role::Role;
-pub use content_part::{ContentPart, ImageFormat};
-pub use error::Error;
+pub mod message;
+pub mod error;

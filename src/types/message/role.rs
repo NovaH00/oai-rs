@@ -1,10 +1,18 @@
+//! The [`Role`] enum — who sent a message.
+
 use serde::{Serialize, Deserialize};
 
+/// The sender of a chat message.
+///
+/// Maps directly to the `role` field in the OpenAI message format.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Role {
+    /// System prompt / instruction message.
     System,
+    /// Model-generated response message.
     Assistant,
+    /// End-user input message.
     User,
 }
 

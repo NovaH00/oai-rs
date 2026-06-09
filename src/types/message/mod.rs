@@ -1,6 +1,15 @@
-use super::role::Role;
-use super::content_part::ContentPart;
-use serde_json::{json, Value};
+//! Message types for chat conversations.
+//!
+//! Defines [`Message`], [`Role`], and [`ContentPart`] for building
+//! chat histories sent to the API.
+
+mod role;
+mod parts;
+
+pub use role::Role;
+pub use parts::{ContentPart, ImageFormat};
+
+use serde_json::json;
 
 /// A chat message exchanged with an OpenAI-compatible model.
 ///
@@ -51,8 +60,8 @@ impl Message {
     ///   ]
     /// }
     /// ```
-    pub fn to_oai_json(&self) -> Value {
-        let content: Vec<Value> = self
+    pub fn to_oai_json(&self) -> serde_json::Value {
+        let content: Vec<serde_json::Value> = self
             .parts
             .iter()
             .map(ContentPart::to_oai_json)
