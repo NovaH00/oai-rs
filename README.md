@@ -6,6 +6,31 @@ Supports standard chat, SSE streaming (including reasoning tokens), and structur
 
 **Status:** Work in progress. Tested against llama.cpp's OpenAI-compatible API endpoint.
 
+## Installation
+
+```bash
+cargo add rust-oai-client
+```
+
+The library is imported as `oai_rs` in Rust code:
+
+```rust
+use oai_rs::{LLMClient, ChatConfig};
+```
+
+All methods return `Result<_, oai_rs::error::Error>`:
+
+```rust
+use oai_rs::error::Error;
+
+match client.chat(&messages).await {
+    Ok(response) => { /* ... */ }
+    Err(Error::Api(msg)) => eprintln!("API refused: {msg}"),
+    Err(Error::NoContent) => eprintln!("Empty response"),
+    Err(e) => eprintln!("{e}"),
+}
+```
+
 ## Usage
 
 ```rust
@@ -68,9 +93,9 @@ Exit with `exit`, `/exit`, or `Ctrl+D`. Set a system prompt via the `SYSTEM` env
 
 | Method | Returns | Description |
 |---|---|---|
-| `chat` | `Result<ChatResponse>` | Standard chat completion |
-| `stream` | `Result<Receiver<Result<StreamChunk>>>` | SSE streaming (incl. reasoning, usage) |
-| `parse` | `Result<ParsedResponse<T>>` | Structured output (JSON Schema) |
+| `chat` | `Result<ChatResponse, Error>` | Standard chat completion |
+| `stream` | `Result<Receiver<Result<StreamChunk, Error>>, Error>` | SSE streaming (incl. reasoning, usage) |
+| `parse` | `Result<ParsedResponse<T>, Error>` | Structured output (JSON Schema) |
 
 ### Key types
 
